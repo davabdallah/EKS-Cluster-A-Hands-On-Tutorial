@@ -1,5 +1,8 @@
 # EKS-Cluster-A-Hands-On-Tutorial
 
+![EKS](https://github.com/user-attachments/assets/83bd1dc5-de43-4884-9770-c44e4d062cf3)
+
+
 ### Prerequisites
 
 Before getting started with EKS, you need to have the following:
@@ -7,18 +10,7 @@ Before getting started with EKS, you need to have the following:
 - AWS account
 - IAM administrator user with access keys
 - AWS CLI, Kubectl, and Eksclt are installed on your local machine:
-  
-  - AWS CLI Instructions can be found here.
-
-  - Kubectl Instructions can be found here.
-
-  - Eksctl Instructions can be found here.
-
-Run the below command to configure AWS CLI using the admin access key
-
-```sh
-aws configure
-```
+- You can find [here](https://github.com/davabdallah/EKS-Cluster-A-Hands-On-Tutorial/tree/main/Prerequisites) how to install and configure the prerequisites 
 
 ## Create an EKS Cluster
 
@@ -58,7 +50,7 @@ eksctl create fargateprofile --cluster <cluster-name> \
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
 ```
 
-you can find all the details about the deployments through this link
+you can find all the details about the deployments through this [link](https://github.com/davabdallah/EKS-Cluster-A-Hands-On-Tutorial/blob/main/Game-2048/deployment.yml)
 
 This command creates:
 
@@ -66,8 +58,24 @@ This command creates:
 - **A Deployment:** Deploys 5 replicas of the game-2048 application.
 - **A Service:** Exposes the application on a NodePort.
 - **An Ingress:** Creates an Application Load Balancer to expose the application outside the cluster.
+  
 
-There is no Ingress address and We cannot access the application from the internet because we need to create an AWS Load Balancer Controller to expose it.
+##### Verify the deployment
+
+```sh
+Kubectl get deployment -n game-2048
+kubectl get svc -n game-2048
+kubectl get ingress -n game-2048
+```
+
+![no-ingress](https://github.com/user-attachments/assets/a2a72191-ecab-4251-9da3-e98a5d5b782f)
+
+
+There is no Ingress address and We cannot access the application from the internet.
+
+We need to create an AWS Load Balancer Controller to expose it.
+
+![alb](https://github.com/user-attachments/assets/d7468266-21b7-434e-aeba-c20431ab69d7)
 
 
 ## Create an AWS Load balancer Controller
@@ -127,7 +135,13 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 kubectl get deployment -n kube-system aws-load-balancer-controller
 ```
 
+![ingress](https://github.com/user-attachments/assets/0c12192d-a76d-445e-9faf-7b4ee99e97d4)
+
+
 The ingress address become the elb endpoint Now, and we can access the Application through the load balancer endpoint 
+
+![game](https://github.com/user-attachments/assets/93f58aca-c74d-45e6-a756-a591a70a639e)
+
 
 ## Conclusion
 
