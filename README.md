@@ -75,13 +75,13 @@ There is no Ingress address and We cannot access the application from the inter
 - It directs traffic from the internet to the cluster's ingress resources, exposing your cluster applications.
 
 - We need to create an IAM policy, an IAM role, and a service account within K8S for the AWS controller load balancer.
-- **Download the IAM Policy:**
+- **Download the IAM Policy**
 
 ```sh
 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
 ```
 
-- **Create an IAM Policy:**
+- **Create an IAM Policy**
 
 ```sh
 aws iam create-policy \
@@ -89,7 +89,7 @@ aws iam create-policy \
     --policy-document file://iam_policy.json
 ```
 
-- **Create an IAM Role and an EKS service account:**
+- **Create an IAM Role and an EKS service account**
 
 ```sh
 eksctl create iamserviceaccount \
@@ -101,7 +101,7 @@ eksctl create iamserviceaccount \
   --approve
 ```
 
-**Deploy AWS load balancer controller using helm chart**
+- **Deploy AWS load balancer controller using helm chart**
 
 ```sh
 helm repo add eks https://aws.github.io/eks-charts
@@ -121,7 +121,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --set vpcId=<vpc-id>
 ```
 
-**Verify the controller deployment**
+- **Verify the controller deployment**
 
 ```sh
 kubectl get deployment -n kube-system aws-load-balancer-controller
